@@ -1,7 +1,13 @@
 require_relative '../models/rider'
+require_relative '../models/ride'
+require_relative '../shared/wompi_api'
+require_relative '../shared/utils'
 require 'sinatra/base'
+require 'httpparty'
+require 'dotenv/load'
 
 class RidersController < Sinatra::Base
+  # Basic CRUD
   get '/riders' do
     content_type :json
     riders = Rider.all
@@ -77,6 +83,63 @@ class RidersController < Sinatra::Base
     else
       status 404
       { error: "Rider con ID: #{params[:id]} no encontrado" }.to_json
+    end
+  end
+
+  # custom endpoints
+  post '/riders/create_payment_method' do
+    content_type :json
+    request_body = JSON.parse(request.body.read)
+
+    rider = Rider.where(rider_id: request_body['id']).first
+
+    create_payment_response = HTTParty.post(
+      'https://sandbox.wompi.co/v1/payment_sources',
+      body: {
+        type: request_body['type'],
+        token: rider.tokenized_card_id,
+        customer_email: request_body['customer_email'],
+        acceptance_token: WompiApi.get_acceptance_token()
+      }.to_json,
+      headers: {
+        'Authorization' => "Bearer #{ENV["PRIVATE_TOKEN"]}"
+      }
+    )
+
+    if rider
+      create_payment_response
+    else
+      status 404
+      { error: "Rider con ID: #{params[:id]} no encontrado" }.to_json
+    end
+  end
+
+  post '/riders/request_ride' do
+    content_type :json
+    request_body = JSON.parse(request.body.read)
+
+    distance_km = Utils.calculate_distance(request_body['start_lat'], request_body['start_lng'], request_body['end_lat'], request_body['end_lng'])
+    duration_min = Utils.calculate_duration(distance_km)
+
+    ride = Ride.new(
+      rider_id: request_body['rider_id'],
+      driver_id: request_body['driver_id'],
+      start_lat: request_body['start_lat'],
+      start_lng: request_body['start_lng'],
+      end_lat: request_body['end_lat'],
+      end_lng: request_body['end_lng'],
+      distance_km: distance_km,
+      duration_minutes: duration_min,
+      cost: Utils.calculate_cost(distance_km, duration_min, 3500),
+      status: 'started'     
+    )
+
+    if ride.save
+      status 201
+      ride.to_json
+    else
+      status 400
+      { error: "Ha ocurrido un error al crear el viaje: #{ride.errors.full_messages}" }.to_json
     end
   end
 end
