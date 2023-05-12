@@ -1,7 +1,9 @@
 require_relative '../models/driver'
+require_relative '../models/ride'
 require 'sinatra/base'
 
 class DriversController < Sinatra::Base
+  # Basic CRUD
   get '/drivers' do
     content_type :json
     drivers = Driver.all
@@ -50,8 +52,6 @@ class DriversController < Sinatra::Base
       driver.email = request_body['email'] if request_body['email']
       driver.phone = request_body['phone'] if request_body['phone']
 
-      puts driver.to_json
-
       if driver.save
         driver.to_json
       else
@@ -77,6 +77,8 @@ class DriversController < Sinatra::Base
       { error: "Driver con ID: #{params[:id]} no encontrado" }.to_json
     end
   end
+
+  # Custom Endpoints
 end
 
 
