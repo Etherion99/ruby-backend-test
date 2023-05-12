@@ -1,3 +1,6 @@
+require 'sequel'
+require_relative '../config/db'
+
 class Driver < Sequel::Model(:drivers)
   plugin :timestamps, update_on_create: true
   one_to_many :rides
