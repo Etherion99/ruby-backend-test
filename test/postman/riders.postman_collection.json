@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "06cb89f8-cc95-43b6-be6d-81ea266265cc",
+		"name": "riders",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8270922"
+	},
+	"item": [
+		{
+			"name": "get all riders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4567/riders",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"riders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get rider by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4567/riders/1",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"riders",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insert rider",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"juan224\",\r\n    \"email\": \"juanstt99@gmail.com\",\r\n    \"phone\": \"3104778865\",\r\n    \"tokenized_card_id\": \"1234555\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4567/riders",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"riders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update rider",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"juan2\",\r\n    \"email\": \"juanstt99@gmail.com2\",\r\n    \"phone\": \"31047788652\",\r\n    \"tokenized_card_id\": \"12345552\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4567/riders/6",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"riders",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete rider by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:4567/riders/9",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"riders",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create payment method",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 5,\r\n    \"tokenized_card_id\": \"tok_test_44964_cfBeC747Ab325a796213AAF327a0bdA7\",\r\n    \"type\": \"CARD\",\r\n    \"customer_email\": \"juanstt99@gmail.com\",\r\n    \"acceptance_token\": \"eyJhbGciOiJIUzI1NiJ9.eyJjb250cmFjdF9pZCI6NiwicGVybWFsaW5rIjoiaHR0cHM6Ly93b21waS5jb20vd2NtL2Nvbm5lY3QvYzkyYmJlYjMtMzQyMS00OWQwLWI4MWUtNGE4ZTRlNTUyYWY5L1QlQzMlQTlybWlub3MreStjb25kaWNpb25lc19Ob3ZpZW1icmUucGRmP01PRD1BSlBFUkVTIiwiZmlsZV9oYXNoIjoiYmY3MjJhY2QxMWM0YzM0MzE1YzA4NTViMjJiMjhiOTkiLCJqaXQiOiIxNjgzOTE1OTQ5LTcxNDI1IiwiZXhwIjoxNjgzOTE5NTQ5fQ.BQ_OOE4FTd6rH1XfZn0sLD3BGSCQZTzEXyywSB-Rs0k\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4567/riders/create_payment_method",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"riders",
+						"create_payment_method"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
