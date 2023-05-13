@@ -4,7 +4,7 @@ require_relative '../shared/wompi_api'
 require_relative '../shared/utils'
 require_relative '../lib/validations'
 require 'sinatra/base'
-require 'httpparty'
+require 'httparty'
 require 'dotenv/load'
 
 class RidersController < Sinatra::Base

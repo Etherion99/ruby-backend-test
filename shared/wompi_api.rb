@@ -1,4 +1,4 @@
-require 'httpparty'
+require 'httparty'
 require 'dotenv/load'
 
 module WompiApi

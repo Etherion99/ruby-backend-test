@@ -12,6 +12,6 @@ Technical test for ruby backend developer position.
 
 # Testing
 
-## Postamn
+## Postman
 
 * In the test/postman folder, Postman collections are included to test the API's functionality.
