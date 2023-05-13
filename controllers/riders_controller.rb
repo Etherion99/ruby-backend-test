@@ -2,6 +2,7 @@ require_relative '../models/rider'
 require_relative '../models/ride'
 require_relative '../shared/wompi_api'
 require_relative '../shared/utils'
+require_relative '../lib/validations'
 require 'sinatra/base'
 require 'httpparty'
 require 'dotenv/load'
@@ -30,19 +31,26 @@ class RidersController < Sinatra::Base
     content_type :json
     request_body = JSON.parse(request.body.read)
 
-    rider = Rider.new(
-      name: request_body['name'],
-      email: request_body['email'],
-      phone: request_body['phone'],
-      tokenized_card_id: request_body['tokenized_card_id']
-    )
+    contract = RiderContract.new.call(request_body)
 
-    if rider.save
-      status 201
-      rider.to_json
+    if contract.success?
+      rider = Rider.new(
+        name: request_body['name'],
+        email: request_body['email'],
+        phone: request_body['phone'],
+        tokenized_card_id: request_body['tokenized_card_id']
+      )
+  
+      if rider.save
+        status 201
+        rider.to_json
+      else
+        status 400
+        { error: rider.errors.full_messages }.to_json
+      end
     else
-      status 400
-      { error: rider.errors.full_messages }.to_json
+      status 422
+      { message: "Validation error", errors: contract.errors.to_h }.to_json
     end
   end
 
